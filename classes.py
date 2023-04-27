@@ -56,7 +56,7 @@ class Field:
 
         query = f"SELECT x_cord, y_cord, AVG(moisture_value), timestamp FROM sensor_data WHERE x_cord = {sensor_cord_x} and y_cord = {sensor_cord_y} AND timestamp BETWEEN '{from_time}' AND '{until_time}'"
         row = cursor.execute(query).fetchall()
-        sensor_avg_moisture = round(row[0][2],2) # rounds average moisture of given sensor over specified time
+        sensor_avg_moisture = round(row[0][2],2) if row[0][2] != None else (-1) # rounds average moisture of given sensor over specified time
 
         return sensor_avg_moisture
 
