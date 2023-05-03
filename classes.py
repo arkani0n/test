@@ -60,8 +60,5 @@ class Field:
 
         return sensor_avg_moisture
 
-
-test = Field(5, 5, 1)
-
-print(test.sensor_list)
-# print(test.get_moisture_map("1_1", {"days":10, "minutes": 0, "hours":0}))
+    def water_sectors(self, coord_list):
+        pass

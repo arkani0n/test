@@ -1,34 +1,30 @@
 import time
 import requests
-# УДАЛИТЬ
-# Как я понимаю, делая запросы на localhost:5000 код делает запрос к самому датчику, данные о влажности находятся по пути localhost:5000/soil_moisture/<какое-то число>
-#
-# УДАЛИТЬ
 
-# Настройки Wi-Fi соединения
+
+# Как я понимаю, делая запросы на localhost:5000 код делает запрос к самому датчику, данные о влажности находятся по пути localhost:5000/soil_moisture/<какое-то число>
+# ^ Заметки от Арканиона
+
+# Wi-Fi connection setup
 ssid = "ваш_SSID_роутера"
 password = "ваш_пароль_роутера"
 
-# Адрес сервера, на который будут отправляться данные
+# Address of remote server
 server_address = "адрес_вашего_сервера"
 
-# Номер пина, на котором подключен датчик влажности почвы FC-28
+# Pin number, on which moisture sensor FC-28 is connected
 soil_moisture_pin = 0
 
-# Номер датчика в секте по горизонтали
+# Sensor coords, please change for every sensor
 x_cord = 1
-
-# Номер датчика в секте по вертикале
 y_cord = 1
 
-# Функция для получения показаний датчика влажности почвы
 def get_soil_moisture():
     response = requests.get(f"http://localhost:5000/soil_moisture/{soil_moisture_pin}")
     if response.status_code == 200:
         return response.json().get("soil_moisture")
     return None
 
-# Настройка соединения с Wi-Fi
 print("Connecting to Wi-Fi...")
 while True:
     try:
@@ -40,8 +36,7 @@ while True:
         pass
     time.sleep(1)
 
-# Бесконечный цикл считывания показаний и отправки на сервер
-# Sends to remote server value on soil moisture and
+# Sends to remote server value on soil moisture every 10 seconds (to change the delay, change time.sleep(DELAY_NUMBER_IN_SECONDS, in line 53)
 while True:
     soil_moisture = get_soil_moisture()
     if soil_moisture is not None:
