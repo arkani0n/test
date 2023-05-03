@@ -1,6 +1,6 @@
 #In metrs
-FIELD_LENGTH         = 10
-FIELD_WIDTH         = 10
+FIELD_LENGTH         = 20
+FIELD_WIDTH         = 20
 FIELD_SENSOR_RADIUS = 1
 
 # threshold levels for moisture to be equal or above these values, to color the sector in the interface
