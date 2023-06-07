@@ -39,7 +39,7 @@ class Field:
                 # ]
         return sensor_list
 
-    def get_moisture_map(self, sensor_cords, start_time_delta_dict, end_time_delta_dict):
+    def get_moisture_map(self, sensor_cords, start_time_delta_dict, end_time_delta_dict, username, password):
         # time_delta_dict = { STRUCTURE
         #   "days"    : int
         #   "hours"   : int
@@ -54,7 +54,12 @@ class Field:
 
         sensor_cord_x, sensor_cord_y = sensor_cords.split("_") # sensor_cords expected to be in format x_y
 
-        query = f"SELECT x_cord, y_cord, AVG(moisture_value), timestamp FROM sensor_data WHERE x_cord = {sensor_cord_x} and y_cord = {sensor_cord_y} AND timestamp BETWEEN '{from_time}' AND '{until_time}'"
+        query = f"SELECT x_cord, y_cord, AVG(moisture_value), timestamp FROM sensor_data" \
+                f" WHERE x_cord = {sensor_cord_x}" \
+                f" AND y_cord = {sensor_cord_y}" \
+                f" AND username = '{username}'" \
+                f" AND password = '{password}'" \
+                f" AND timestamp BETWEEN '{from_time}' AND '{until_time}'"
         row = cursor.execute(query).fetchall()
         sensor_avg_moisture = round(row[0][2],2) if row[0][2] != None else (-1) # rounds average moisture of given sensor over specified time
 

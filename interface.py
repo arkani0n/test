@@ -7,8 +7,13 @@ import configuration
 
 
 class MainWindow:
-    def __init__(self, field, red_threshold, yellow_threshold, green_threshold):
+    def __init__(self, username, password, field, red_threshold, yellow_threshold, green_threshold):
+
+        self.username = username
+        self.password = password
+
         self.root = tkinter.Tk()
+        self.root.title(username)
         self.field = field
 
         self.main_frame = tkinter.Frame(self.root)
@@ -157,7 +162,10 @@ class MainWindow:
                                                            "days": time_entries_values["end_days"],
                                                            "hours": time_entries_values["end_hours"],
                                                            "minutes": time_entries_values["end_minutes"],
-                                                       })
+                                                       },
+                                                       username=self.username,
+                                                       password=self.password
+                                                       )
                 self.sensor_labels[sensor].config(text=f"sensor coords: {sensor} \nmoisture: {moisture}")
                 self.set_sensor_color(sensor_name=sensor)
 
@@ -201,15 +209,14 @@ def login_window(users):
 
 def open_main_window(username, password):
     Field = classes.Field(configuration.FIELD_LENGTH, configuration.FIELD_WIDTH, configuration.FIELD_SENSOR_RADIUS)
-    interface = MainWindow(Field, configuration.INTERFACE_SECTOR_COLOR_RED, configuration.INTERFACE_SECTOR_COLOR_YELLOW,
-                           configuration.INTERFACE_SECTOR_COLOR_GREEN)
+    interface = MainWindow(field=Field, red_threshold=configuration.INTERFACE_SECTOR_COLOR_RED, yellow_threshold=configuration.INTERFACE_SECTOR_COLOR_YELLOW,
+                           green_threshold=configuration.INTERFACE_SECTOR_COLOR_GREEN, username=username, password=password)
     interface.root.mainloop()
 
 
 users = {
-    "Vasya": "1111",
-    "user2": "password2",
-    "user3": "password3",
+    "potato": "potato1",
+    "grain": "grain1",
     # Add other users as needed
 }
 
