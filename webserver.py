@@ -21,8 +21,12 @@ class FieldServer(HTTPServer):
                             "x_cord int,"
                             "y_cord int,"
                             "moisture_value float,"
+                            "color char,"
+                            "username char,"
+                            "password char,"
                             "timestamp timestamp )"
                             )
+        sqliteConnection.commit()
         result = self.cursor.fetchall()
         print(f"Table init result: {result}")
         sqliteConnection.close()
@@ -60,12 +64,14 @@ class MyServer(BaseHTTPRequestHandler):
         self.sqliteConnection = sqlite3.connect('sql.db')
         self.cursor = self.sqliteConnection.cursor()
 
-    def add_data_to_list(self,data):
-        insert_data = f"{data['x_cord']}, {data['y_cord']}, {data['moisture_value']}, \'{datetime.datetime.now()}\'"
+    def add_data_to_list(self, data):
+        print("DEBUG: ", data['color'])
+        insert_data = f"{data['x_cord']}, {data['y_cord']}, {data['moisture_value']}, \'{data['color']}\', \'{data['username']}\', \'{data['password']}\', \'{datetime.datetime.now()}\'"
         try:
-            self.cursor.execute(f"INSERT INTO sensor_data (x_cord, y_cord, moisture_value, timestamp) VALUES ({insert_data})")
+            self.cursor.execute(
+                f"INSERT INTO sensor_data (x_cord, y_cord, moisture_value, color, username, password, timestamp) VALUES ({insert_data})")
             self.sqliteConnection.commit()
-            result = self.cursor.fetchone() #TODO Not retirning the result of insert
+            result = self.cursor.fetchone()
             print(f"Insert of values {insert_data} \n resulted with: {result}")
         except sqlite3.Error as error:
             print(f"Durring insert of values: {insert_data} \nError occurred - {error}")
